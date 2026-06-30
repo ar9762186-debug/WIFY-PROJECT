@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بسنت عماد للعقارات - مساعد ذكي</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:#0b0e14;color:#e8e8e8;height:100dvh;display:flex;flex-direction:column;direction:rtl}
+header{background:#111827;border-bottom:1px solid #1e2535;padding:13px 18px;display:flex;align-items:center;gap:11px;flex-shrink:0}
+.logo{width:40px;height:40px;background:linear-gradient(135deg,#c9a84c,#e8c96a);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#0b0e14;flex-shrink:0}
+.hinfo h1{font-size:14px;font-weight:700;color:#c9a84c}
+.hinfo p{font-size:11px;color:#556;margin-top:1px}
+.dot{width:7px;height:7px;background:#4ade80;border-radius:50%;margin-right:auto;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+#msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:11px}
+#msgs::-webkit-scrollbar{width:3px}
+#msgs::-webkit-scrollbar-thumb{background:#1e2535;border-radius:2px}
+.msg{max-width:80%;padding:11px 14px;border-radius:15px;font-size:14px;line-height:1.6;animation:fi .25s ease}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.agent{background:#161d2e;border:1px solid #1e2535;border-radius:3px 15px 15px 15px;align-self:flex-start;color:#d4d8e4}
+.user{background:rgba(201,168,76,.14);border:1px solid rgba(201,168,76,.28);border-radius:15px 3px 15px 15px;align-self:flex-end;color:#f0d98a;text-align:right}
+.aname{font-size:10px;color:#c9a84c;font-weight:700;margin-bottom:4px;letter-spacing:.4px}
+.typing{display:none;align-self:flex-start;background:#161d2e;border:1px solid #1e2535;border-radius:3px 15px 15px 15px;padding:11px 15px;gap:5px;align-items:center}
+.typing.on{display:flex}
+.td{width:6px;height:6px;background:#c9a84c;border-radius:50%;animation:b 1.1s infinite}
+.td:nth-child(2){animation-delay:.18s}.td:nth-child(3){animation-delay:.36s}
+@keyframes b{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.qbtns{display:flex;flex-wrap:wrap;gap:6px;padding:8px 16px 0;flex-shrink:0}
+.qb{background:#111827;border:1px solid rgba(201,168,76,.28);color:#c9a84c;padding:6px 12px;border-radius:18px;font-size:12px;cursor:pointer;transition:all .15s;font-family:inherit}
+.qb:hover{background:rgba(201,168,76,.14);border-color:#c9a84c}
+#ia{padding:13px 16px;background:#111827;border-top:1px solid #1e2535;display:flex;gap:9px;align-items:flex-end;flex-shrink:0}
+#inp{flex:1;background:#0b0e14;border:1px solid #1e2535;border-radius:11px;color:#d4d8e4;padding:9px 13px;font-size:14px;font-family:inherit;resize:none;outline:none;line-height:1.5;max-height:90px;direction:rtl;transition:border-color .2s}
+#inp:focus{border-color:rgba(201,168,76,.35)}
+#inp::placeholder{color:#334}
+#sb{background:linear-gradient(135deg,#c9a84c,#e8c96a);border:none;border-radius:9px;width:40px;height:40px;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;transition:.15s;flex-shrink:0}
+#sb:hover{transform:scale(1.06)}#sb:active{transform:scale(.95)}
+#sb:disabled{opacity:.35;cursor:not-allowed}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">BE</div>
+  <div class="hinfo">
+    <h1>بسنت عماد للعقارات</h1>
+    <p>مساعد ذكي • القاهرة</p>
+  </div>
+  <div class="dot"></div>
+</header>
+<div id="msgs">
+  <div class="msg agent">
+    <div class="aname">🏠 بسنت عماد للعقارات</div>
+    أهلاً وسهلاً! 👋<br>أنا مساعدك الذكي لمكتب <strong>بسنت عماد للعقارات</strong>.<br>
+    عندنا وحدات في <strong>غرب • شرق • ساحل شمالي • سخنة • وسط البلد</strong>.<br><br>
+    إيه اللي بتدور عليه؟ 🔑
+  </div>
+</div>
+<div class="qbtns">
+  <button class="qb" onclick="sq('عايز شقة في غرب القاهرة')">🏢 شقق غرب</button>
+  <button class="qb" onclick="sq('عايز فيلا')">🏡 فيلا</button>
+  <button class="qb" onclick="sq('وحدات الساحل الشمالي')">🏖️ ساحل شمالي</button>
+  <button class="qb" onclick="sq('شقة في شرق القاهرة')">🌆 شرق</button>
+  <button class="qb" onclick="sq('تاون هاوس بكام؟')">🏘️ تاون هاوس</button>
+  <button class="qb" onclick="sq('عايز أعرف الأسعار')">💰 الأسعار</button>
+</div>
+<div id="ia">
+  <button id="sb" onclick="send()">➤</button>
+  <textarea id="inp" placeholder="اكتب سؤالك هنا..." rows="1"
+    onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"
+    oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,90)+'px'"></textarea>
+</div>
+<script>
+let hist=[],busy=false;
+
+function addMsg(txt,role){
+  const c=document.getElementById('msgs');
+  const d=document.createElement('div');
+  d.className='msg '+(role==='user'?'user':'agent');
+  if(role==='assistant')d.innerHTML='<div class="aname">🏠 بسنت عماد للعقارات</div>'+txt.replace(/\n/g,'<br>');
+  else d.textContent=txt;
+  c.appendChild(d);
+  c.scrollTop=c.scrollHeight;
+}
+
+function showTyping(s){
+  let t=document.getElementById('typ');
+  if(!t){t=document.createElement('div');t.id='typ';t.className='typing';t.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div>';document.getElementById('msgs').appendChild(t);}
+  t.classList.toggle('on',s);
+  if(s)document.getElementById('msgs').scrollTop=99999;
+}
+
+async function send(){
+  if(busy)return;
+  const inp=document.getElementById('inp');
+  const txt=inp.value.trim();
+  if(!txt)return;
+  inp.value='';inp.style.height='auto';
+  addMsg(txt,'user');
+  hist.push({role:'user',content:txt});
+  busy=true;document.getElementById('sb').disabled=true;
+  showTyping(true);
+  try{
+    const r=await fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:hist})
+    });
+    const data=await r.json();
+    const rep=data.content?.[0]?.text||'معلش، في مشكلة. جرب تاني.';
+    hist.push({role:'assistant',content:rep});
+    showTyping(false);addMsg(rep,'assistant');
+  }catch(e){showTyping(false);addMsg('معلش، في مشكلة في الاتصال.','assistant');}
+  busy=false;document.getElementById('sb').disabled=false;
+}
+
+function sq(t){document.getElementById('inp').value=t;send();}
+</script>
+</body>
+</html>
